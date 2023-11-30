@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Registro</title>
+</head>
+<body>
+
+<h1>Formulario de Registro</h1>
+
+<form id="registrationForm">
+  <label for="firstName">Nombre:</label>
+  <input type="text" id="firstName" name="firstName" required>
+  <br>
+  
+  <label for="lastName">Apellido:</label>
+  <input type="text" id="lastName" name="lastName" required>
+  <br>
+  
+  <label for="birthdate">Fecha de Nacimiento:</label>
+  <input type="date" id="birthdate" name="birthdate" required>
+  <br>
+  
+  <button type="button" onclick="submitForm()">Enviar</button>
+</form>
+
+<script>
+  function submitForm() {
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const birthdate = document.getElementById('birthdate').value;
+
+    const userData = {
+      name: `${firstName} ${lastName}`,
+      birthdate: birthdate,
+    };
+
+    fetch('https://jsonplaceholder.typicode.com/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Respuesta del servidor:', data);
+      alert('Usuario registrado con éxito');
+    })
+    .catch(error => {
+      console.error('Error al enviar la solicitud:', error);
+      alert('Hubo un error al registrar el usuario');
+    });
+  }
+</script>
+
+</body>
+</html>
+
